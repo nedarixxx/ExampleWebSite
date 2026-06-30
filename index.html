@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AutoGear Master | Ремонт АКПП и ДВС</title>
+    <style>
+        /* === БАЗОВЫЕ НАСТРОЙКИ (Динамический минимализм) === */
+        :root {
+            --brand-blue: #5297ff;
+            --brand-blue-hover: #45c0e6;
+            --bg-body: #f7f7f9;
+            --bg-card: #ffffff;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* === КНОПКИ И ТЕГИ === */
+        .btn { display: inline-flex; justify-content: center; align-items: center; background: var(--brand-blue); color: #000; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); }
+        .btn:hover { background: var(--brand-blue-hover); transform: translateY(-2px); }
+        .tag { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #fff; display: inline-block; }
+
+        /* === НАВИГАЦИЯ === */
+        .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 16px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 24px; font-weight: 500; font-size: 18px; color: var(--text-muted); }
+        .nav-links a:hover { color: var(--text-main); }
+
+        /* === КОНТЕЙНЕР СЕКЦИЙ === */
+        .container { max-width: 1600px; margin: 0 auto; padding: 0 5%; }
+        section { margin-top: 40px; }
+        .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.5px; }
+
+        /* === ПЛЕЙСХОЛДЕРЫ ДЛЯ ФОТО === */
+        .image-placeholder {
+            background-color: #e5e5ea;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        /* === ГЛАВНЫЙ ЭКРАН (HERO) === */
+        .hero { 
+            background-image: url('Screenshot_6.png');
+            min-height: 480px; 
+            border-radius: var(--radius-lg); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+            padding: 40px; 
+            color: #fff; 
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.0) 100%); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+        .hero h1 { font-size: 38px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -1px; }
+        .hero p { font-size: 17px; opacity: 0.9; margin-bottom: 20px; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+        .rating-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: #000; padding: 6px 12px; border-radius: 12px; font-weight: 700; font-size: 14px; margin-bottom: 20px; }
+        .rating-badge span { color: #ff9800; font-size: 16px; }
+
+        /* === КАРТОЧКИ === */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--bg-card); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); transition: var(--transition); border: 1px solid rgba(0,0,0,0.03); }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        
+        .service-card { display: flex; flex-direction: column; }
+        .service-price { font-size: 22px; font-weight: 700; margin: auto 0 16px 0; color: var(--text-main); }
+        .service-card h3 { font-size: 18px; margin-bottom: 8px; }
+        .service-card p { font-size: 14px; color: var(--text-muted); line-height: 1.4; margin-bottom: 16px; }
+
+        .review-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .review-name { font-weight: 600; font-size: 16px; }
+        .review-stars { color: #ff9800; letter-spacing: 2px; font-size: 14px; }
+        .review-text { font-size: 14px; color: var(--text-muted); }
+
+        /* === ФОТОГАЛЕРЕЯ === */
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .photo-item { width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-md); transition: var(--transition); cursor: pointer; }
+        .photo-item:hover { transform: scale(1.02); box-shadow: var(--shadow-hover); }
+
+        /* === КОНТАКТЫ И ФОРМА === */
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .form-card { background: var(--bg-card); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); }
+        
+        .form-input { width: 100%; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #e5e5ea; border-radius: 12px; font-family: inherit; font-size: 15px; background: #fafafa; transition: var(--transition); }
+        .form-input:focus { outline: none; border-color: var(--brand-blue); background: #fff; }
+        
+        /* Изменение размера строго по вертикали */
+        textarea.form-input { resize: vertical; min-height: 100px; max-height: 350px; }
+
+        /* Красивый контейнер и кнопка добавления фото */
+        .file-upload-container { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: #fafafa; padding: 12px 16px; border: 1px dashed #cbd5e1; border-radius: 12px; transition: var(--transition); }
+        .file-upload-container:hover { border-color: var(--brand-blue); background: #f8fafc; }
+        .file-upload-label { background: #e2e8f0; color: var(--text-main); padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-block; }
+        .file-upload-label:hover { background: #cbd5e1; }
+        .file-name-text { font-size: 14px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+
+        .map-block { border-radius: var(--radius-md); overflow: hidden; background: #e5e5ea; min-height: 300px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { padding: 30px 20px; min-height: 400px; border-radius: 16px; }
+            .hero h1 { font-size: 28px; }
+            .contact-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span style="font-size: 24px;">⚙️</span> AutoGear
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">О сервисе</a></li>
+            <li><a href="#services">Каталог</a></li>
+            <li><a href="#photos">Фото</a></li>
+            <li><a href="#rating">Отзывы</a></li>
+        </ul>
+        <div style="display: flex; gap: 12px;">
+            <a href="#contacts" class="btn">Записаться</a>
+            <a href="tel:7xxxxxxxxxx" class="btn" style="background: #f0f0f2; color: var(--text-main);">+7 (XXX) XXX-XX-XX</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="about">
+            <div class="image-placeholder hero">
+                <div class="hero-content">
+                    <div class="rating-badge"><span>★</span> 4.8 на Картах</div>
+                    <h1>Ремонт АКПП и капитальный ремонт двигателей</h1>
+                    <div class="hero-tags">
+                        <div class="tag">Гарантия до 2-х лет</div>
+                        <div class="tag">Бесплатный эвакуатор</div>
+                        <div class="tag">Свой токарь 5-го разряда</div>
+                    </div>
+                    <p>Профессиональный автосервис в Екатеринбурге. Решаем сложные проблемы с двигателями и трансмиссией, за которые не берутся другие.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2 class="section-title">Каталог услуг</h2>
+            <div class="grid">
+                <div class="card service-card">
+                    <h3>Капитальный ремонт ДВС</h3>
+                    <p>Расточка блоков, шлифовка коленвалов, замена поршневой группы, цепей и ремней ГРМ под ключ.</p>
+                    <div class="service-price">от 50 000 ₽</div>
+                    <a href="#contacts" class="btn" style="width: 100%;">Рассчитать стоимость</a>
+                </div>
+                <div class="card service-card">
+                    <h3>Ремонт АКПП, DSG, CVT</h3>
+                    <p>Ремонт гидроблоков, замена сцепления, восстановление мехатроников. Компьютерная адаптация.</p>
+                    <div class="service-price">от 30 000 ₽</div>
+                    <a href="#contacts" class="btn" style="width: 100%;">Рассчитать стоимость</a>
+                </div>
+                <div class="card service-card">
+                    <h3>Аппаратная замена масла</h3>
+                    <p>Полная замена жидкости в АКПП методом вытеснения с промывкой системы и заменой фильтров.</p>
+                    <div class="service-price">от 4 000 ₽</div>
+                    <a href="#contacts" class="btn" style="width: 100%;">Рассчитать стоимость</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="photos">
+            <h2 class="section-title">Фото автосервиса</h2>
+            <div class="photo-grid">
+                <div class="image-placeholder photo-item" title="Фото 1" style="background-image: url('Screenshot_7.png');"></div>
+                <div class="image-placeholder photo-item" title="Фото 2" style="background-image: url('Screenshot_8.png');"></div>
+                <div class="image-placeholder photo-item" title="Фото 3" style="background-image: url('Screenshot_9.png');"></div>
+                <div class="image-placeholder photo-item" title="Фото 4" style="background-image: url('Screenshot_10.png');"></div>
+            </div>
+        </section>
+
+        <section id="rating">
+            <h2 class="section-title">Отзывы (64)</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="review-header">
+                        <span class="review-name">Иван С.</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">Делали капиталку на Mazda 6 GH. Масло жрала ведрами. Ребята всё расточили, поставили новые поршни. Проехал уже 10 тысяч — уровень стоит как вкопанный. Спасибо!</p>
+                </div>
+                <div class="card">
+                    <div class="review-header">
+                        <span class="review-name">Михаил В.</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">Начались пинки в автомате. В двух сервисах приговорили коробку под замену. Здесь сделали диагностику, починили гидроблок, и машина снова поехала плавно. Сэкономил кучу денег.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacts">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contact-layout">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 20px; font-size: 20px;">Запись на диагностику</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Предельная ул., 1В, Екатеринбург<br>Ежедневно 09:00 - 20:00<br><br><strong style="color:var(--text-main); font-size:18px;">+7 (XXX) XXX-XX-XX</strong></p>
+                    
+                    <form name="auto_repair_order" method="POST" enctype="multipart/form-data" netlify>
+                        <input type="text" name="client_name" class="form-input" placeholder="Как к вам обращаться?" required>
+                        <input type="tel" name="client_phone" class="form-input" placeholder="Ваш телефон" required>
+                        <textarea name="problem_desc" class="form-input" placeholder="Марка авто и что сломалось?"></textarea>
+                        
+                        <div style="margin-bottom: 8px;"><span style="font-size: 13px; color: var(--text-muted);">Прикрепить фото детали (опционально):</span></div>
+                        <div class="file-upload-container">
+                            <label for="photo_file" class="file-upload-label">Выбрать фото</label>
+                            <input type="file" id="photo_file" name="photo_file" accept="image/*" style="display: none;">
+                            <span id="file-name" class="file-name-text">Файл не выбран</span>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;">Отправить заявку</button>
+                    </form>
+                </div>
+
+                <div class="map-block">
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A9861d403808ca3bf1685ed867ee18f5cbceb19d3946ec586f659c1602ca652c3&amp;lang=ru_RU&amp;scroll=true"></script>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('photo_file').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Файл не выбран';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
+</body>
+</html>
